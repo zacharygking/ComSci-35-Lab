@@ -1,0 +1,78 @@
+Laboratory Answers:
+- denotes commands used to find answers
+1.man -K 'keyword'
+- man man
+2. cp is located at /bin/cp, and wc is located at /usr/bin/wc 
+- whereis cp, whereis cp
+3. w - shows who is logged on and what they are doing
+   [ - no manual entry for [
+   X - a portable, network-transparent window system
+- find /usr/bin -name '?'
+4. /etc/alternatives/emacs
+- file /usr/bin/emacs
+5. sets user group ID on execution to users who are members of the
+ file's group, set user group ID on execution,
+set the execute permission granted to users that are in neither members
+ of the file's group or owns the file.
+- man chmod
+6. find -mtime -21
+- man find
+7. command used to find all directories modified in
+ last 3 weeks 'find / -type d -mtime -21'
+- man find
+8. 20
+- find -type l (@ directory of find which is /bin/)
+9. libgamin-1.so.0.1.10
+- ls -l -t
+10. the locale command get its information from
+ the LC_* environment variables
+- man locale
+11.
+sort-lines
+sort-paragraphs
+sort-pages
+sort-fields
+sort-numeric-fields
+sort-columns
+rmail-sort-by-date
+rmail-sort-by-subject
+rmail-sort-by-author
+rmail-sort-by-recipient
+rmail-sort-by-correspondent
+rmail-sort-by-lines
+rmail-sort-by-labels
+- emacs -> C-h r
+12.
+C-M-a - runs the command beginning-of-defun,
+ which moves backwards to the beginning of a defun.
+C-M-b - runs the command backward-sexp,
+ which moves backwards across one balanced expression.
+C-M-c - runs the command exit-recursive-edit,
+ which exits from the innermost recursive edit or minibuffer.
+C-M-d - runs the command down-list,
+ which moves forward down one level of parentheses.
+C-M-e - runs the command end of defun,
+ which moves forward to the next end of defun.
+C-M-f - runs the command forward-sexp,
+ which moves forward across one balance expression.
+C-M-g - undefined
+C-M-h - runs the command mark-defun
+, which puts a mark at the end of this defun, and points it at the beginning
+- C-h k 'command'
+13. First, the command C-g can be used to safel
+y stop emacs when it stopped responding or when
+a command is taking too long to execute.
+ The command C-g can also be usedto discard a numeric argument 
+or the beginning of a command that you do not want
+ to finish. Finally, if you press ESC, C-g gets rid of it.
+-emacs -> C-h t
+14. The yank function reinserts the last killed text
+ at the current cursor position.
+-emacs -> C-h t
+15. Using the dired command a few directories are omitted
+ due to dired passingthe --dired option which
+causes ls to emit special escape sequences for file names.
+ Also dired shows the amount of space used
+by the directory and the space available. Dired also shows
+ information for hidden files which ls -l does not.
+- ls -l, emacs dired /usr/bin
