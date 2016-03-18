@@ -1,0 +1,78 @@
+locale output was not correct, corrected this with the command:
+export LC_ALL='C'
+
+obtained the file of sorted words using the command:
+sort /usr/share/dict/words >words
+
+obtained the file containing the html of this assignment
+using the command:
+wget http://web.cs.ucla.edu/classes/winter16/cs35L/assign/assign2.html
+
+What the commands do:
+tr -c 'A-Za-z' '[\n*]'
+- This command replaces any characters that are not alphabetical
+- with a newline character.
+
+tr -cs 'A-Za-z' '[\n*]'
+- This command does as the previous but if there is a sequence of
+- non alphabetical characters the program acts as though
+- the sequence counts as a single character
+
+tr -cs 'A-Za-z' '[\n*]' | sort
+- This command does as the previous, however the output is sorted by
+- line (each line only contains alphabetical characters so are just the
+- words from the file)
+
+tr -cs 'A-Za-z' '[\n*]' | sort -u
+- This command does as the previous, however lines that appear
+- more than once are only included a single time
+
+tr -cs 'A-Za-z' '[\n*]' | sort -u | comm - words
+- This command does as the previous, however each
+- line(word) taken is compared with the list of
+- english words. Words that dont appear in the list of english
+- words are put in column 1, and words that do appear in the list
+- appear in column 3, and the words on the list that dont occur 
+- in the initial input appear in column 2
+
+tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - words
+- This command does as the previous except columns 2 and 3 
+- do not appear, so only words from the inital input that dont
+- match any word on the list appear.
+
+
+getting the website
+- wget mauimapp.com/moolelo/hwndseng.htm
+
+steps for script buildwords
+1.removing only the parts surrounded with <td></td>
+- grep '<td>.*</td> |
+2.removing all of the html tags
+- sed 's/<[^]*>//g' |
+3. changing ` to '
+- sed "s/\`/\'/g" |
+4. changing commas to spaces
+- sed "s/\,/ /g" |
+5. changing space(s) to a single newline
+tr -s '[:blank:]' '[\n*]' |
+6. changing uppercase to lower
+tr '[:upper:]' '[:lower:]' |
+7. removing all words with non Hawaiian characters
+sed "/[^pkmnwlhaeiou'/''/d" |
+8. sorting remaining and removing dupes
+sort -u
+
+Some english words are able to pass through if they are solely
+comprised of hawaiian characters such as moon.
+
+'mispelled' hawaiian words = 401
+'mispelled' english words = 39
+
+There are many words that are 'mispelled' as hawaiian but not as english
+which is expected as the webpage is in english (ex. write, worry, traditional)
+There are a few words that are 'mispelled' as english but not hawaiian such as
+wiki and lau.
+this was done by taking text files of all the mispelled words and then
+using the comm command to compare the words.
+
+  
