@@ -1,0 +1,35 @@
+created large file with the following command:
+-od -An -tf -N 80000000 </dev/urandom | tr -s ' ' '\n' > big.txt
+
+removed the first line(wasn't needed) with the following command:
+-sed -i -e "1d" big.txt
+
+The Benchmarks:
+
+1 Thread
+-time -p sort -g --parallel=1 big.txt > /dev/null
+results:
+real 178.21
+user 178.04
+sys 0.24
+
+2 Threads
+-time -p sort -g --parallel=2 big.txt > /dev/null
+results:
+real 96.10
+user 182.71
+sys 0.27
+
+4 Threads
+-time -p sort -g --parallel=4 big.txt > /dev/null
+results:
+real 59.34
+user 191.23
+sys 1.66
+
+8 Threads
+-time -p sort -g --parallel=8 big.txt > /dev/null
+results:
+real 42.94
+user 210.70
+sys 3.69
