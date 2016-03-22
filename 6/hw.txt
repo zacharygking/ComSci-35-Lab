@@ -1,0 +1,28 @@
+1) If another team had been snooping on all the bytes sent between our
+computers, the network would still be secure because our "messages" 
+are encrypted with keys that only our two computers have access
+to. A third party would see the bytes that are being sent, however
+these bytes would not represent anything meaningful.
+
+(1) If the other team had tapped into our computers and recorded the
+keystroked, then our network would not be secure. Since inputs are
+never encrypted they would still see the raw inputs, which wouldn't 
+include all of the sensitive data being used by the computers. However,
+if passwords and usernames are inputted through the computer then they 
+could have access to alot of sensitive information.
+
+(2) If the other teams had access to the USB we are booting from, then we
+would again be in very big trouble. On the USB somewhere is the key used
+to encrypt/decrpyt "messages" and if they have the key then the random bytes
+they saw before can now be decoded into the messages.
+
+2) the gpg --verify command cannot verify that I personally created the
+tar file because the key cannot be traced to a specific person. For example
+If I establish a key with nico and then send nico a document, Nico can figure
+out that my key was used. However, if someone else gets ahold of my key,
+problems arise. Say Paul finds my key and then uses it to send something to
+Nico, and says its from me. When Nico verifies that, everything will uphold
+that I sent the document when I actually didn't. One way to combat this would
+be to have a 'middle man' in place to verify all of the transactions, however 
+this middle man would have to be 100% secure in order for it to be a complete
+solution

@@ -1,0 +1,44 @@
+With my partner (Nico Magana), I served as the server(administrator) side
+and these were the commands necessary on my end:
+1 - ssh-keygen
+this command created the RSA keys (public and private) for the ssh process
+and also asked me which directory to save them in, and I chose
+lab6.
+
+2 - sudo useradd -d /home/nico -m nico
+this created the user nico, which was used by nico.
+
+3 - sudo passwd nico
+this command allowed me to change the password for the user nico so that 
+he could access the user.
+
+4 - cd /home/nico
+this took me to the directory owned by nico since I want nico to access here
+
+5 - sudo mkdir .ssh
+made a new directory called .ssh for nico to access
+
+6 - sudo chown -R nico .ssh
+this made the directory readable to Nico
+
+7 - sudo chmod 700 .ssh
+this gave nico the rights of ownership over the .ssh directory.
+
+Then after nico setup a server for me in the same fashion using my steps I
+used his steps to access his server:
+
+1 - ssh-keygen
+same as above
+
+2 - ssh-copy-id -i is_rsa.pub zach@<164.67.61.255>
+this command sent nicos IP adress my public key
+
+3 - ssh-add
+this command adds the private key so a password becomes unnecessary
+
+4 - ssh -X zach@<164.67.61.255>
+after this command was run i now had access to nicos server and could access
+applications with GUIs like Amazon and Firefox.
+
+
+
