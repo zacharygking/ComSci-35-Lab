@@ -1,0 +1,49 @@
+To test the speed of the 3 different implementations
+I created a file with 10,000 words a file with 100,000 words
+and a file with 1,000,000 words, here are the results:
+
+sfrobu.c
+1,000,000 words = 5.818s
+100,000 words = 0.565s
+10,000 words = .056s
+
+sfrob.c
+1,000,000 words = 1.811s
+100,000 words = .105s
+10,000 words = .011s
+
+sfrobs
+1,000,000words = .967s
+100,000 words = .034s
+10,000 words = .011s
+
+After seeing these results it can be drawn that if your only
+concern is speed then sfrobs > sfrob.c > sfrobu.c. sfrobu.c is 
+the slowest by far due to the system calls to write and read 
+which were a large portion of the programs time.
+
+Since sfrobu kept track of the number of comparisons made we can
+try to predict how many comparisons are required as a function of the
+number of words input. Based on previous knowledge I know that quicksort
+is of time complexity NlogN, so I will use this to test that. The following
+data was collected from sfrobu during the previous test.
+
+1,000,000 words = 17180800 comparisons
+100,000 words = 1415536 comparisons
+10,000 words = 112048 comparisons
+9 words = 17 comparisons
+
+when N = 1,000,000 NlogN = 1.38 * 10^7, which is equivalent in
+magnitude(1*10^7) to our actual value.
+
+when N = 100,000 NlogN = 1.15 * 10^6, which is equivalent in 
+magnitude(1*10^6) to our actual value.
+
+when N = 10,000 NlogN = 92103 which is equivalent in magnitude
+(1*10^5) to our actual value.
+
+when N = 9 NlogN = 19.77 which is equivalent in magnitude(1*10^1)
+to our actual value.
+
+since all of our comparisons:value relationships were upheld, we can determine
+that the relationship is of NlogN where N is the number of input words.

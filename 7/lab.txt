@@ -1,0 +1,136 @@
+1 + 2) for this portion of the laboratory my implementation was similar
+and followed a simple flow
+
+-check that there are 3 arguments (one being the name of program)
+-take both input arguments (i.e. "abc" and "def")
+-check that the arguments are the same length
+-check that the first argument has no duplicated
+-run the translation
+
+my translation algorithm was simple and in that it searched the
+first argument for the character and if it was present it wrote
+the correlating character from the second argument.
+
+3) 
+(a) when copying one file to another
+1 - tr2b
+
+tested using the command:
+strace -c ./tr2b "a" "b" < test.txt > outputb.txt
+
+results:
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000099           0       224           write
+  0.00    0.000000           0       226           read
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         4           fstat
+  0.00    0.000000           0        10           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000099                   476         1 total
+
+2 - tr2u
+
+tested using the command:
+strace -c ./tr2u "a" "b" < test.txt > outputu.txt
+
+[king@lnxsrv02 ~/35l/7/lab]$ strace -c ./tr2u "a" "b" < test.txt > output2.txt
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 58.18    1.761750           0  14647032           write
+ 41.82    1.266398           0  14647034           read
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         2           fstat
+  0.00    0.000000           0         8           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    3.028148              29294088         1 total
+
+-- In this case tr2b had a much lower amount of system calls, this is due
+to the fact that we made each character require a system call in tr2u but
+it seems that tr2b performed the system calls in a manner such that it took
+blocks of characters at a time.
+
+(b) when copying a file to your terminal:
+
+1 - tr2b
+
+tested using the command:
+strace -c ./tr2b "a" "b" < test.txt
+
+results:
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 99.60    0.051338           0    625001           write
+  0.40    0.000207           1       226           read
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         4           fstat
+  0.00    0.000000           0        10           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.051545                625253         1 total
+
+2 - tr2u
+
+tested using the command:
+strace -c ./tr2u "a" "b" < test.txt
+
+results:
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 56.63    0.619565           0  14647035         3 write
+ 43.37    0.474580           0  14647034           read
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         2           fstat
+  0.00    0.000000           0         8           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    1.094145              29294091         4 total
+
+-- in this case tr2b used more system calls, but still not even close
+to the amount of calls that tr2u made. Again showing that tr2b took input
+in blocks 
+
+4)
+tr2b - 
+command used:
+time cat test.txt | ./tr2b "a" "b"
+
+results:
+real	0m4.413s
+user	0m0.678s
+sys	0m1.524s
+
+tr2u - 
+command used:
+time cat test.txt | ./tr2u "a" "b"
+
+results:
+real	0m18.619s
+user	0m0.830s
+sys	0m17.959s
