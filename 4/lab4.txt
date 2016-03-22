@@ -1,0 +1,56 @@
+1. to get a copy of the files the following command was run:
+- git clone ~eggert/src/gnu/diffutils
+
+2. used the following command as instructed
+git log > ../git-log.txt
+
+3. used the following command as instructed
+git tag > ../git-tags.txt
+
+4. to find the right commit used emacs to enter the log file
+then searched for 'like this' and found the commit id to be
+62ca21c8c1a5aa3488589dcb191a4ef04ae9ed4f and used the command
+git format-patch -1 <commit id> --stdout > ../quote-patch.txt
+
+5. to find the tag I emacs into git-tags.txt and saw v3.0 whcih
+most likely refers to version 3 and then ran the command:
+git checkout v3.0
+
+6.  applioed the patch using the following command:
+- patch -p1 < ../quote-patch.txt the only issues with the patch
+was the finding a file error, but pressing return worked.
+
+7. using the git status command it is appparent that several files
+ were modified as a result of the patch.
+ 
+8. after reverting all the changes except those to c code,
+there are 6 .c files remaining when using git status.
+
+9. used emacs to remove everything but c string
+constants and was left with 6 files
+
+10. corrected the .c files according to the .rej files using emacs
+and manually checking the changes
+
+11. removed all files by running the following commands:
+git clean -n
+git clean -f
+
+12. There are 6 files that are left changed and the changes are all in the
+c code manipulating or using string literal constants.
+
+13.  built the program with the following commands
+./bootstrap
+./configure
+make
+verified that the commands were now producing the expected output
+
+14. created a directory holding the information current held in the directory,
+then checked out v3.0 and ran diff on the files with the following command:
+- diffutils-3.0-patch/src/diff -pru diffutils-3.0/diffutils diffutils-3.0-patch
+ >quote-3.0.text.test
+ 
+15. The sources differ in that one of the files the .c files contain code that 
+utilize the ' instead of the ` which results in many of the .c files to have
+the two switched. therefore the changes are not innocuous because they do
+indeed change how the program runs.

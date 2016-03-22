@@ -1,0 +1,8 @@
+in the top portion of the screen we see the commit history of the
+repository. in the left section is the name of the commit, in the center
+is who made the commit, and on the right is the date that the commit occured.
+after selecting the 'merge from gnulib' commit, the bottom right subwindow
+shows the files that are impacted by the selected commit. In the bottom left
+subwindow we see information about hte commit such as date, committer, and 
+since this was a merge we see the parent and child branches. under that we
+can see the file changes in diff format.

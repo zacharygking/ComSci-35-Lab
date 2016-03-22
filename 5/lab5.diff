@@ -1,0 +1,27 @@
+2016-02-07 Zachary Girard King <king@lnxsrv01.seas.ucla.edu>
+
+	   * timespec.h: Fixed a bug in the timespec_cmp function that
+	   caused inaccurate results due to integer overflow.
+
+--- coreutils-with-bug/lib/timespec.h	2005-09-21 23:05:39.000000000 -0700
++++ coreutils-fixed/lib/timespec.h	2016-02-07 22:54:53.486773000 -0800
+@@ -45,8 +45,17 @@ struct timespec
+ static inline int
+ timespec_cmp (struct timespec a, struct timespec b)
+ {
+-  int diff = a.tv_sec - b.tv_sec;
+-  return diff ? diff : a.tv_nsec - b.tv_nsec;
++  int diff;
++  if (a.tv_sec > b.tv_sec){
++    diff = 1;
++  }
++  else if (a.tv_sec < b.tv_sec){
++    diff = -1;
++  }
++  else{
++    diff = 0;
++  }
++  return diff;
+ }
+ 
+ # if ! HAVE_DECL_NANOSLEEP

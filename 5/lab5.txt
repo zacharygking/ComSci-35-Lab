@@ -1,0 +1,84 @@
+First step was to gather the tar.gz file, used the following command:
+-wget http://web.cs.ucla.edu/classes/winter16/cs35L/
+assign/coreutils-with-bug.tar.gz
+then unzip the file..
+-tar -zxvf coreutils-with-bug.tar.gz
+
+when I tried to build the version extracted with the following command
+-./configure
+then the command:
+-make
+however this command failed with the following results
+In file included from utimecmp.c:41:0:
+utimens.h:2:5: error: conflicting types for 'futimens'
+ int futimens (int, char const *, struct timespec const [2]);
+     ^
+In file included from utimecmp.h:25:0,
+                 from utimecmp.c:25:
+/usr/include/sys/stat.h:374:12: note: previous declaration of 'futimens'
+ was here
+ extern int futimens (int __fd, __const struct timespec __times[2]) __THROW;
+            ^
+Makefile:659: recipe for target 'utimecmp.o' failed
+make[3]: *** [utimecmp.o] Error 1
+make[3]: Leaving directory '/w/home.03/cs/ugrad/king/35l/5/lab/coreutils-with-
+bug/lib'
+Makefile:414: recipe for target 'all' failed
+make[2]: *** [all] Error 2
+make[2]: Leaving directory '/w/home.03/cs/ugrad/king/35l/5/lab/coreutils-with-
+bug/lib'
+Makefile:419: recipe for target 'all-recursive' failed
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory '/w/home.03/cs/ugrad/king/35l/5/lab/coreutils-with
+bug'
+Makefile:357: recipe for target 'all' failed
+make: *** [all] Error 2
+
+however after applying the patch the build went without error
+
+tested the results after build the ensure that the bug was in place
+
+[king@lnxsrv04 ~/35l/5/lab/coreutils-with-bug/src]$ TZ=UTC0 ./ls -lt --full-tim
+e ../../temp
+total 0
+-rw-r--r-- 1 king csugrad 0 2054-12-17 17:28:16.000000000 +0000 wwi-armistice
+-rw-r--r-- 1 king csugrad 0 2016-02-07 03:10:59.572927000 +0000 now1
+-rw-r--r-- 1 king csugrad 0 2016-02-07 03:10:46.194523000 +0000 now
+
+now to find the source of the bug.
+Used emacs to open ls.c
+
+first I looked into what the full-time option did to change execution
+After using emacs search to search through the source code I could that
+it sets the FULL_TIME_OPTION variable which in turn sets the format and 
+time_style_option to full-iso. from here I disregarded the format variable
+and further investigate the time_style_option variable and followed it to
+the *style ptr(line 1829) however this didn’t lead to anything interesting
+so I decided to investigate using GDB.
+
+first i set breakpoint on main and found it was at line 1114, then i looked
+into the code to find breakpoints that I thought could contain the answer
+to the bug. An answer on piazza pointed out that the error seems to stem as a
+sorting issue so these are the functions I set breakpoints on to further
+investigate:
+sort_files (); (called @ line 1259)
+after following the execution through this function, i found that the function
+compare_mtime was being used to sort the files. Then I set a breakpoint here.
+turns out this function then calls another called cmp_mtime, I then set the
+breakpoint there. After setting the breakpoint and viewing the
+info breakpoints, it seems this function is located in timespec.h before
+running gdb again i took a quick look at the timespec.h file using emacs
+and see that the function is comparing the timestamps on two files to 
+determine which is never. Upon  inspection with gdb i was able to find out
+that diff was overloading when the example was running which was causing an
+error. To fix this error I simple used to comments of the function to return
+exactly what it says and the implementation worked (included in lab5.diff).
+
+When the problem is tested on my home directory, it lists the armistice file
+from the year 2054. The source of this problem is from the fact that the local
+file system on the linux server is 64 bit timestamps while the seasnet NFS 
+filesystem only has a 32 bit timestamp. When the program tries to see how
+long ago the file was created the integer overflows and the program thinks
+that the program was then made in the future.
+
+

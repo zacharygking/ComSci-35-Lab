@@ -1,0 +1,37 @@
+1.
+
+2. ran the following commands to clone the repo and branch v3.0
+-git clone ~eggert/src/gnu/diffutils
+-git checkout -b quote
+-git checkout v3.0
+
+3. installed the change using the following commands
+-patch -p1 < ../../quote-3.0-patch.txt
+
+4. entered each of the changed files and used the commmand C-x 4 a to
+write what changes were made to the files
+
+5. ^
+
+6. used the command to commit using changelog as the message
+-commit -F src/ChangeLog
+
+7. used the following command to create the patch
+-git format-patch -1 --stdout > formatted-patch.txt
+
+8. used the following commands to set up the new repository and test
+my partner's (Nico Magana) patch
+-git clone ~eggert/src/gnu/diffutils
+-git checkout -b partner 
+-git checkout v3.0
+-git am < ../formatted-patch.txt
+./bootstrap
+./configure
+make test
+after running these commands my partners patch worked as intended.
+
+9. ran the suggested make command and correctly saw my changelog entry
+as the text for my changelog entry in the file. Also verified that the patch
+applied correctly by testing the output of the diff program.
+
+10. 
