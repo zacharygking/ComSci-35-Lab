@@ -1,0 +1,34 @@
+1. Grabbing the script
+first i used wget with the download link as the arguments as follows
+- wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-7.6.tar.gz
+to download coreutils-7.6.tar.gz. then to unzip this file I ran the command
+- tar -xzvf coreutils-7.6.tar.gz
+
+2. Compiling coreutils
+then once in the directory of the unzipped file the following commands were
+used to build the program
+- ./configure --prefix="/u/cs/ugra/king/35l/3/hw"
+- make
+- make install
+- make clean
+
+3. Reproducing the bug
+first I ran the following command
+- export LC_ALL='en_US.UTF-8'
+then I entered the bin directory fo the coreutils unzipped file.
+then i ran the following commands:
+- ls -l /bin/bash
+- ./ls -l /bin/bash
+the first command printed the regular expected output, whilst the
+second produced the expected "bug" output.
+
+4. Applying the patch
+entered the file with emacs and edited the lines according to the diff
+included with the patch.
+
+5.
+configured the make file and built the program.
+
+6. tested on two files as the spec suggested
+ and saw the correct output in both cases.
+ 

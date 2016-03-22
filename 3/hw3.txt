@@ -1,0 +1,19 @@
+Q1. The line was used in the section of code removed that
+included the for loop. In a certain case a goto statement was
+used to go to that section of the program, however since the code
+utilizing the goto checkpoint was removed it was not necessary
+to include, but leaving it would not have caused an issue either.
+
+Q2: This change could cause problems in other countries such as
+people not being used to interpreting the date in such format. Also
+certrain programs that rely on the date being formatted in the old way
+wouldn't be able to determine the date. 
+
+Q3. the code raises an IndexError: list index out of range, this happens
+because the program isnt made to be run on files without any lines. The error
+is raised because it tries to access a line, but none exist.
+
+Q4. When the code is run in python 3 the code ends with error:
+SyntaxError: invalid syntax. This is because in python3 the syntax for
+raising an exception is different as it doesn't allow commas in the as
+portion of the exception.
